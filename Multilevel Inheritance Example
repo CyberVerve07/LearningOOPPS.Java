@@ -1,0 +1,26 @@
+class Vehicle {
+    public void start() {
+        System.out.println("Vehicle is starting");
+    }
+}
+
+class Car extends Vehicle {
+    public void drive() {
+        System.out.println("Car is driving");
+    }
+}
+
+class SportsCar extends Car {
+    public void turboMode() {
+        System.out.println("Turbo mode activated!");
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        SportsCar myCar = new SportsCar();
+        myCar.start();      // Vehicle class ka method
+        myCar.drive();      // Car class ka method
+        myCar.turboMode();  // SportsCar class ka method
+    }
+}
