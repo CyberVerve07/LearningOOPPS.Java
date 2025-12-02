@@ -1,0 +1,158 @@
+// Complete Java OOP Program demonstrating all core concepts
+// Class & Object Creation
+class Vehicle {
+    // Encapsulation - Private fields with public getters/setters
+    private String brand;
+    private int speed;
+    
+    // Constructor
+    public Vehicle(String brand, int speed) {
+        this.brand = brand;
+        this.speed = speed;
+    }
+    
+    // Getters and Setters
+    public String getBrand() { return brand; }
+    public void setBrand(String brand) { this.brand = brand; }
+    public int getSpeed() { return speed; }
+    public void setSpeed(int speed) { this.speed = speed; }
+    
+    // Method to be overridden (Inheritance + Polymorphism preparation)
+    public void displayInfo() {
+        System.out.println("Vehicle: " + brand + ", Speed: " + speed + " km/h");
+    }
+}
+
+// Inheritance - Car extends Vehicle
+class Car extends Vehicle {
+    private int doors;
+    
+    // Constructor chaining (Inheritance)
+    public Car(String brand, int speed, int doors) {
+        super(brand, speed);  // Calls parent constructor
+        this.doors = doors;
+    }
+    
+    // Method Overriding (Runtime Polymorphism)
+    @Override
+    public void displayInfo() {
+        super.displayInfo();  // Calls parent method
+        System.out.println("Car has " + doors + " doors");
+    }
+    
+    // Method Overloading (Compile-time Polymorphism)
+    public void accelerate(int increment) {
+        setSpeed(getSpeed() + increment);
+        System.out.println("Car accelerated. New speed: " + getSpeed());
+    }
+    
+    public void accelerate() {
+        accelerate(10);  // Calls overloaded method
+    }
+}
+
+// Abstract Class (Abstraction)
+abstract class Shape {
+    protected String color;
+    
+    public Shape(String color) {
+        this.color = color;
+    }
+    
+    // Abstract method (must be implemented by subclasses)
+    public abstract double calculateArea();
+    
+    // Concrete method in abstract class
+    public void displayColor() {
+        System.out.println("Shape color: " + color);
+    }
+}
+
+// Interface (Abstraction - Multiple inheritance capability)
+interface Flyable {
+    int MAX_ALTITUDE = 10000;  // public static final by default
+    
+    void fly();  // public abstract by default
+    
+    default void land() {  // Java 8+ default method
+        System.out.println("Landing safely...");
+    }
+}
+
+// Interface implementation + Multiple inheritance (Abstraction)
+class Airplane extends Vehicle implements Flyable {
+    public Airplane(String brand, int speed) {
+        super(brand, speed);
+    }
+    
+    // Implementing interface method (Polymorphism)
+    @Override
+    public void fly() {
+        System.out.println(brand + " is flying at " + MAX_ALTITUDE + " feet");
+    }
+    
+    // Overriding parent method
+    @Override
+    public void displayInfo() {
+        super.displayInfo();
+        System.out.println("This is an Airplane");
+    }
+}
+
+// Multiple Interface Implementation
+class Drone extends Shape implements Flyable {
+    private int propellers;
+    
+    public Drone(String color, int propellers) {
+        super(color);
+        this.propellers = propellers;
+    }
+    
+    @Override
+    public double calculateArea() {
+        return 0;  // Simplified for demo
+    }
+    
+    @Override
+    public void fly() {
+        System.out.println("Drone with " + propellers + " propellers is flying");
+    }
+}
+
+public class OOPDemo {
+    public static void main(String[] args) {
+        // Object Creation
+        Vehicle vehicle1 = new Vehicle("Generic", 60);
+        Car car1 = new Car("Toyota", 120, 4);
+        Airplane plane1 = new Airplane("Boeing", 800);
+        Drone drone1 = new Drone("Black", 4);
+        
+        // Polymorphism - Same method, different behaviors
+        Vehicle[] vehicles = {vehicle1, car1, plane1};
+        
+        System.out.println("=== POLYMORPHISM ===");
+        for(Vehicle v : vehicles) {
+            v.displayInfo();  // Calls appropriate overridden method
+        }
+        
+        System.out.println("\n=== INHERITANCE ===");
+        car1.displayInfo();  // Shows inherited + overridden behavior
+        
+        System.out.println("\n=== ENCAPSULATION ===");
+        System.out.println("Car brand: " + car1.getBrand());  // Controlled access
+        
+        System.out.println("\n=== ABSTRACTION (Abstract Class) ===");
+        drone1.displayColor();  // Concrete method access
+        System.out.println("Drone area: " + drone1.calculateArea());
+        
+        System.out.println("\n=== ABSTRACTION (Interface) ===");
+        plane1.fly();
+        plane1.land();  // Default method
+        
+        System.out.println("\n=== METHOD OVERLOADING ===");
+        car1.accelerate();  // Calls default
+        car1.accelerate(20);  // Calls parameterized
+        
+        System.out.println("\nAll OOP concepts demonstrated successfully!");
+    }
+}
