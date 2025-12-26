@@ -1,0 +1,47 @@
+// Part class: Professor can live on its own
+class Professor {
+    private String name;
+
+    public Professor(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+
+// Whole class: Department aggregates Professor
+import java.util.List;
+
+class Department {
+    private String name;
+    private List<Professor> professors; // Aggregation: has-a, but not owning lifecycle
+
+    public Department(String name, List<Professor> professors) {
+        this.name = name;
+        this.professors = professors; // Professors are passed in from outside
+    }
+
+    public void printProfessors() {
+        System.out.println("Department: " + name);
+        for (Professor p : professors) {
+            System.out.println("Professor: " + p.getName());
+        }
+    }
+}
+
+public class AggregationDemo {
+    public static void main(String[] args) {
+        Professor p1 = new Professor("Alice");
+        Professor p2 = new Professor("Bob");
+
+        java.util.List<Professor> list = java.util.Arrays.asList(p1, p2);
+
+        Department cs = new Department("CS", list);
+        cs.printProfessors();
+
+        // Even if 'cs' is no longer used,
+        // p1 and p2 objects can still be used elsewhere (independent life).
+    }
+}
